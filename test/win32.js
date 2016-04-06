@@ -1,4 +1,7 @@
 /**
+ * Created by user on 2016/4/7.
+ */
+/**
  * Created by user on 2016/4/6.
  */
 "use strict";
@@ -10,7 +13,7 @@ var assert = chai.assert;
 var should = chai.should;
 
 var path = require('path');
-var upath = require('../src/index.js');
+var upath = require('../src/index.js').win32;
 
 function path_relative(to)
 {
@@ -27,18 +30,18 @@ describe(path_relative(__filename), function ()
 	describe('path.normalize(path)', function ()
 	{
 		var _map = {
-			'c:/windows/nodejs/path': 'c:/windows/nodejs/path',
-			'c:/windows/../nodejs/path': 'c:/nodejs/path',
-			'c:\\windows\\nodejs\\path': 'c:/windows/nodejs/path',
-			'c:\\windows\\..\\nodejs\\path': 'c:/nodejs/path',
-			'//windows\\unix/mixed': '/windows/unix/mixed',
-			'\\windows//unix/mixed': '/windows/unix/mixed',
-			'\\\\windows//unix/mixed': '/windows/unix/mixed',
-			'////\\windows\\..\\unix/mixed/': '/unix/mixed/',
+			'c:/windows/nodejs/path': 'c:\\windows\\nodejs\\path',
+			'c:/windows/../nodejs/path': 'c:\\nodejs\\path',
+			'c:\\windows\\nodejs\\path': 'c:\\windows\\nodejs\\path',
+			'c:\\windows\\..\\nodejs\\path': 'c:\\nodejs\\path',
+			'//windows\\unix/mixed': '\\windows\\unix\\mixed',
+			'\\windows//unix/mixed': '\\windows\\unix\\mixed',
+			'\\\\windows//unix/mixed': '\\windows\\unix\\mixed',
+			'////\\windows\\..\\unix/mixed/': '\\unix\\mixed\\',
 
-			'////\\windows\\////\\////\\..\\////\\////\\unix/////\\mixed/': '/unix/mixed/',
+			'////\\windows\\////\\////\\..\\////\\////\\unix/////\\mixed/': '\\unix\\mixed\\',
 
-			'windows\\unix/mixed/': 'windows/unix/mixed/'
+			'windows\\unix/mixed/': 'windows\\unix\\mixed\\'
 		};
 
 		for (let p in _map)
@@ -53,16 +56,16 @@ describe(path_relative(__filename), function ()
 	{
 		var _map = [
 			[
-				['some/nodejs/deep', '../path'],
-				'some/nodejs/path',
+				['some/nodejs/deep', '..\\path'],
+				'some\\nodejs\\path',
 			],
 			[
-				['some/nodejs\\windows', '../path'],
-				'some/nodejs/path',
+				['some/nodejs\\windows', '..\\path'],
+				'some\\nodejs\\path',
 			],
 			[
 				['some\\windows\\only', '..\\path'],
-				'some/windows/path',
+				'some\\windows\\path',
 			],
 		];
 
@@ -79,15 +82,15 @@ describe(path_relative(__filename), function ()
 		var _map = [
 			[
 				['.//windows\//unix//mixed////'],
-				'./windows/unix/mixed/',
+				'.\\windows\\unix\\mixed\\',
 			],
 			[
 				['..///windows\\..\\unix/mixed'],
-				'../windows/../unix/mixed',
+				'..\\windows\\..\\unix\\mixed',
 			],
 			[
 				['..///\\\\\\\\\\\\\\\//////////////////windows\\\\\\\\\\\\\\\//////////////////\\..\\unix/mixed'],
-				'../windows/../unix/mixed',
+				'..\\windows\\..\\unix\\mixed',
 			],
 		];
 
@@ -133,19 +136,19 @@ describe(path_relative(__filename), function ()
 			],
 			[
 				['./../dep/'],
-				'../dep',
+				'..\\dep',
 			],
 			[
 				['path//dep\\'],
-				'path/dep',
+				'path\\dep',
 			],
 			[
 				['.//windows\\unix/mixed/'],
-				'./windows/unix/mixed',
+				'.\\windows\\unix\\mixed',
 			],
 			[
 				['./././././/windows/././././\\unix/././././mixed/'],
-				'./windows/unix/mixed',
+				'.\\windows\\unix\\mixed',
 			],
 			[
 				['././././'],
@@ -157,11 +160,11 @@ describe(path_relative(__filename), function ()
 			],
 			[
 				['././.././dep/'],
-				'../dep',
+				'..\\dep',
 			],
 			[
 				['path//dep\\'],
-				'path/dep',
+				'path\\dep',
 			],
 		];
 
