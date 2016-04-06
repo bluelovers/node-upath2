@@ -161,4 +161,4 @@ upath.posix = Object.assign({}, path.posix);
 
 exports = module.exports = upath;
 
-console.log(upath);
+//console.log(upath);
