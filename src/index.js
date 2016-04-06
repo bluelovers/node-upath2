@@ -106,11 +106,27 @@ upath.posix = Object.assign({}, path.posix);
 		};
 	};
 
+	let hander2 = function (old, old_fn)
+	{
+		return function ()
+		{
+			var _self = this;
+			var args = arguments.length ? Array.prototype.slice.call(arguments, 0) : [];
+
+			return this.upath.formatifyMap.call(this, old_fn.apply(old, this.upath.formatifyMap.call(this, args)));
+		};
+	};
+
 	let a = ['win32', 'posix'];
 
 	for (let i in a)
 	{
 		let k = a[i];
+		
+		if (k == 'posix')
+		{
+			hander = hander2;
+		}
 
 		for (let name in path[k])
 		{
