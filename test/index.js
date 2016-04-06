@@ -33,7 +33,12 @@ describe(path_relative(__filename), function ()
 			'c:\\windows\\..\\nodejs\\path': 'c:/nodejs/path',
 			'//windows\\unix/mixed': '/windows/unix/mixed',
 			'\\windows//unix/mixed': '/windows/unix/mixed',
-			'////\\windows\\..\\unix/mixed/': '/unix/mixed/'
+			'\\\\windows//unix/mixed': '/windows/unix/mixed',
+			'////\\windows\\..\\unix/mixed/': '/unix/mixed/',
+
+			'////\\windows\\////\\////\\..\\////\\////\\unix/////\\mixed/': '/unix/mixed/',
+
+			'windows\\unix/mixed/': 'windows/unix/mixed/'
 		};
 
 		for (let p in _map)
@@ -69,7 +74,7 @@ describe(path_relative(__filename), function ()
 		}
 	});
 
-	describe('path.toUnix(path)', function ()
+	describe('path.formatify(path)', function ()
 	{
 		var _map = [
 			[
@@ -80,13 +85,92 @@ describe(path_relative(__filename), function ()
 				['..///windows\\..\\unix/mixed'],
 				'../windows/../unix/mixed',
 			],
+			[
+				['..///\\\\\\\\\\\\\\\//////////////////windows\\\\\\\\\\\\\\\//////////////////\\..\\unix/mixed'],
+				'../windows/../unix/mixed',
+			],
 		];
 
 		for (let i in _map)
 		{
 			it(`${ _map[i][0] } => ${ _map[i][1] }`, function () {
-				assert.equal(upath.toUnix.apply(upath, _map[i][0]), _map[i][1]);
+				assert.equal(upath.formatify.apply(upath, _map[i][0]), _map[i][1]);
 			});
 		}
 	});
+
+	describe('path.isAbsolute(path)', function ()
+	{
+		var _map = [
+			[
+				['D:\\Users\\Documents\\The Project\\JetBrains\\untitled\\package.json'],
+				true,
+			],
+			[
+				['\\untitled\\package.json'],
+				false,
+			],
+		];
+
+		for (let i in _map)
+		{
+			it(`${ _map[i][0] } => ${ _map[i][1] }`, function () {
+				assert.equal(upath.isAbsolute.apply(upath, _map[i][0]), _map[i][1]);
+			});
+		}
+	});
+
+	describe('path.septrim(path)', function ()
+	{
+		var _map = [
+			[
+				['./'],
+				'.',
+			],
+			[
+				['./../'],
+				'..',
+			],
+			[
+				['./../dep/'],
+				'../dep',
+			],
+			[
+				['path//dep\\'],
+				'path/dep',
+			],
+			[
+				['.//windows\\unix/mixed/'],
+				'./windows/unix/mixed',
+			],
+			[
+				['./././././/windows/././././\\unix/././././mixed/'],
+				'./windows/unix/mixed',
+			],
+			[
+				['././././'],
+				'.',
+			],
+			[
+				['./././.././././.'],
+				'..',
+			],
+			[
+				['././.././dep/'],
+				'../dep',
+			],
+			[
+				['path//dep\\'],
+				'path/dep',
+			],
+		];
+
+		for (let i in _map)
+		{
+			it(`${ _map[i][0] } => ${ _map[i][1] }`, function () {
+				assert.equal(upath.septrim.apply(upath, _map[i][0]), _map[i][1]);
+			});
+		}
+	});
+
 });
