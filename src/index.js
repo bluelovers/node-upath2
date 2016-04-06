@@ -1,5 +1,7 @@
 /**
- * Created by user on 2016/4/6.
+ * base on upath
+ * 
+ * upath http://github.com/anodynos/upath/
  */
 "use strict";
 
@@ -8,17 +10,19 @@ const path = require("path");
 const upath = Object.assign({}, path, {
 	sep: '/',
 
-	regexp: {
+	_regexp: {
 		win32: /\\|\\\\/g,
+		double: /\/\//g
 	},
 
 	toUnix: function (p)
 	{
-		var r = this.regexp.win32;
+		var r = this._regexp.win32;
+		var d = this._regexp.double;
 		p = p.replace(r, this.sep);
-		while (p.match(r))
+		while (p.match(d))
 		{
-			p = p.replace(r, this.sep);
+			p = p.replace(d, this.sep);
 		}
 		return p;
 	},

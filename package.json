@@ -1,11 +1,35 @@
 {
-  "name": "upath2",
-  "version": "1.0.0",
-  "description": "A proxy to `path`, replacing `\\` with `/` for all results & new methods to normalize & join keeping leading `./` and add, change, default, trim file extensions.",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+	"name": "upath2",
+	"version": "1.0.0",
+	"description": "A proxy to `path`, replacing `\\` with `/` for all results",
+	"main": "src/index.js",
+	"scripts": {
+		"test": "mocha"
+	},
+	"author": "",
+	"license": "ISC",
+
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bluelovers/node-upath2.git"
+	},
+
+	"keywords": [
+		"windows",
+		"unix",
+		"path"
+	],
+
+	"dependencies": {
+
+	},
+
+	"devDependencies": {
+		"mocha": "*",
+		"chai": "*"
+	},
+
+	"bugs": {
+		"url": "https://github.com/bluelovers/node-upath2/issues"
+	}
 }
