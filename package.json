@@ -25,6 +25,9 @@
 	},
 
 	"devDependencies": {
+
+		"extend": "*",
+
 		"mocha": "*",
 		"chai": "*"
 	},
